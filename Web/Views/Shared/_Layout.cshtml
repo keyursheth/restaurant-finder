@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
+    <script src="~/js/common.js"></script>
+</head>
+<body style="background-color: #f2f2f2;">
+    <div class="row p-2" style="background-color: #506CF0;">
+        <div class="col-1">
+
+        </div>
+        <div class="col-10">
+            <div class="row">
+                <div class="col-md-2">
+                    <a class="font-weight-bold" href="#" style="color: #FFF; font-size: 30px;">funger</a>
+                </div>
+                <div class="col-md-8">
+                    <form class="form-inline">
+                        <select class="form-control" id="selCity">
+                            <option selected="selected" value="3">Mumbai</option>
+                            <option value="5">Pune</option>
+                            <option value="11">Ahmedabad</option>
+                        </select>
+                        <input class="form-control w-50 ml-1" type="search" placeholder="Search for restaurants or cuisines..." aria-label="Search">
+                        <button class="btn btn-outline-light ml-1" type="submit">Search</button>
+                    </form>
+                </div>
+                <div class="col-md-2">
+                    <form class="form-inline">
+                        <button class="btn btn-outline-light" type="submit">Sign In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-1">
+
+        </div>
+    </div>
+    <div class="row p-2" style="background-color: #FFF;">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <span style="font-weight: 500;">Great food anytime anywhere</span>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row p-2">
+        <div class="col-1"></div>
+        <div class="col-10">
+            @RenderBody()
+        </div>
+        <div class="col-1"></div>
+    </div>
+
+    @RenderSection("scripts", false)
+
+</body>
+</html>
