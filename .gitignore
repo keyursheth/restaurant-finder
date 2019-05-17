@@ -3,3 +3,5 @@
 ################################################################################
 
 /.vs/OnlineFoodOrder
+/CommonObjects/bin/Debug
+/CommonObjects/obj
