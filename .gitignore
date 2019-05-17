@@ -5,3 +5,4 @@
 /.vs/OnlineFoodOrder
 bin
 obj
+*.user
