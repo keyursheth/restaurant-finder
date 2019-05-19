@@ -14,10 +14,10 @@ namespace CommonObjects
 
     public class Restaurant
     {
-        public Restaurant1 restaurant { get; set; }
+        public ZomatoRestaurant restaurant { get; set; }
     }
 
-    public class Restaurant1
+    public class ZomatoRestaurant
     {
         public R R { get; set; }
         public string apikey { get; set; }

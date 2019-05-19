@@ -9,6 +9,7 @@
     </div>
 </div>
 <div class="mt-5">
+    @*Filters Div*@
     <div class="bg-white border rounded p-3 w-25" style="float:left;">
         <span style="font-size: 20px; font-weight:600;">Filters</span>
         <div class="pr-2 pt-3">
@@ -65,66 +66,33 @@
         </div>
     </div>
 
+    @*Restaurants List*@
     <div class="bg-transparent p-3 w-50" style="float:left; padding-top: 0 !important" id="dvRestaurantList">
     </div>
-    <button type="button" class="bg-white border rounded w-25 d-flex justify-content-center"
-            style="float:left; padding-top: 0 !important; line-height: 50px;
-            background-image: url(&quot;https://b.zmtcdn.com/images/search-map-placeholder.jpg?output-format=webp&quot;);"
-            data-toggle="modal"
-            data-target="#exampleModal">
-        View search results on map
-    </button>
-</div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div id="map" class="modal-content" style="height: 600px; width: 100%;">
-
-        </div>
+    @*Maps button*@
+    <div>
+        <button type="button" class="bg-white border rounded w-25 d-flex justify-content-center"
+                style="float:left; padding-top: 0 !important; line-height: 50px;
+                background-image: url(&quot;https://b.zmtcdn.com/images/search-map-placeholder.jpg?output-format=webp&quot;);"
+                data-toggle="modal"
+                data-target="#exampleModal">
+            View search results on map
+        </button>
     </div>
 </div>
+
+
 
 @section scripts {
     <script>
+
         $(document).ready(function () {
             getRestaurantDataByCityId($('#selCity').val());
         });
-    </script>
-
-    <script>
-        function initMap() {
-
-            var map = new google.maps.Map(
-                document.getElementById('map'),
-                {
-                    zoom: 10,
-                    center: { lat: 19.0060598584, lng: 72.8274960816 }
-                });
-
-            var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-            var markers = locations.map(function (location, i) {
-                return new google.maps.Marker({
-                    position: location,
-                    label: labels[i % labels.length]
-                });
-            });
-
-            var markerCluster = new MarkerClusterer(map, markers,
-                { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
-        }
-
-        var locations = [
-            { lat: 19.1749480000, lng: 72.8376470000 },           
-            { lat: 19.0060598584, lng: 72.8274960816 }
-        ]
 
     </script>
 
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTHfxRMypoWwvbnk-B15iFXUM-pWJxhiM&callback=initMap">
-    </script>
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
     </script>
 }

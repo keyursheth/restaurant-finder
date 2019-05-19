@@ -2,6 +2,10 @@
 @model RestaurantsModel
 
 
+<input type="hidden" id="hdnGMapKey" value="@ViewData["gmapKey"]" />
+<input type="hidden" id="hdnMapDetails" asp-for="JsonMapDetails" />
+<input type="hidden" id="hdnLocLatLong" asp-for="LocLatLong" />
+
 @if (Model != null && Model.Restaurants != null && Model.Restaurants.Count > 0)
 {
     foreach (var restaurant in Model.Restaurants)
@@ -11,7 +15,7 @@
                 <div style="width: 20%; padding-left: 15px;">
                     @*<img src="~/images/tamasha_lowerparel.jpg" height="120" width="120" style="border: 0.5px solid lightgray; border-radius: 10px;" />*@
                     <img src="@restaurant.ImagePath" height="120" width="120"
-                            style="border: 0.5px solid lightgray; border-radius: 10px;" />
+                         style="border: 0.5px solid lightgray; border-radius: 10px;" />
                 </div>
                 <div style="width: 65%; padding-left: 50px;">
                     @*<div style="color: #999999;  font-weight: 400; font-size: 13px;">@restaurant.Type</div>*@
@@ -59,3 +63,53 @@
         </div>
     }
 }
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div id="map" class="modal-content" style="height: 500px; width: 100%;">
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function initMap() {
+
+        var locLatLng = $('#hdnLocLatLong').val().split(',');
+
+        var map = new google.maps.Map(
+            document.getElementById('map'),
+            {
+                zoom: 11,
+                center: new google.maps.LatLng(locLatLng[0], locLatLng[1])
+            }
+        );
+               
+        var jsonMapData = JSON.parse($('#hdnMapDetails').val());
+        var markers = [];
+
+        for (var i = 0; i < jsonMapData.length; i++) {
+
+            var newLatLng = new google.maps.LatLng(jsonMapData[i].latitude,jsonMapData[i].longitude);
+
+            markers.push(                
+                new google.maps.Marker({
+                    position: newLatLng,
+                    label: jsonMapData[i].markerLabel
+                })
+            );
+        }
+
+        var markerCluster = new MarkerClusterer(map, markers,
+            { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+    }
+
+</script>
+
+<script async defer>
+    var gmapkey = $('#hdnGMapKey').val();
+    var gmapSource = "https://maps.googleapis.com/maps/api/js?key=" + gmapkey + "&callback=initMap";
+    $.getScript(gmapSource);
+</script>

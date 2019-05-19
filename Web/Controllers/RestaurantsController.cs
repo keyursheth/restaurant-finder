@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CommonObjects;
+using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 
 namespace Web.Controllers
@@ -10,7 +11,7 @@ namespace Web.Controllers
             
         }
         public IActionResult Index()
-        {
+        {           
             return View();
         }
 

@@ -10,3 +10,4 @@ var getRestaurantDataByCityId = function (cityId) {
         $('#spCityName').text($('#selCity :selected').text() + ' Restaurants');
     });    
 }
+

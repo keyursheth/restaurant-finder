@@ -6,3 +6,5 @@
 bin
 obj
 *.user
+Web.csproj.user
+apikeys.json
