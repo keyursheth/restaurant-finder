@@ -23,11 +23,12 @@ namespace Web.View_Components
             _googleMapsKey = SetGoogleMapsKey();
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int entityId)
+        public async Task<IViewComponentResult> InvokeAsync(int entityId, bool isFilterApplied, string cuisines)
         {            
             RestaurantsModel restaurantsModel = new RestaurantsModel();
             restaurantsModel.Restaurants = new List<RestaurantDO>();
             restaurantsModel.MapDetails = new List<MapDetailsDO>();
+            List<string> lstIntersect = new List<string>();
 
             ZomatoRestaurantDO zomatoRestaurantDO = new ZomatoRestaurantDO();
             zomatoRestaurantDO = await GetRestaurants(entityId);
@@ -36,10 +37,24 @@ namespace Web.View_Components
             if (zomatoRestaurantDO != null && zomatoRestaurantDO.results_found > 0 && zomatoRestaurantDO.results_shown > 0
                 && zomatoRestaurantDO.restaurants != null && zomatoRestaurantDO.restaurants.Length > 0)
             {
+                List<string> lstCuisines = new List<string>();
+
+                if (string.IsNullOrEmpty(cuisines) == false)
+                    lstCuisines = cuisines.Split(',').ToList<string>();
+
                 foreach (var res in zomatoRestaurantDO.restaurants)
                 {                   
-                    restaurantsModel.Restaurants.Add(GetRestaurantDO(res.restaurant));
-                    restaurantsModel.MapDetails.Add(GetMapDetails(res.restaurant));
+                    if (isFilterApplied)
+                    {
+                        List<string> lstResCuisines = res.restaurant.cuisines.Split(',').ToList<string>();
+                        lstIntersect = lstCuisines.Intersect(lstResCuisines).ToList<string>();                        
+                    }
+
+                    if ((isFilterApplied && lstIntersect != null && lstIntersect.Count > 0) || isFilterApplied == false)
+                    {
+                        restaurantsModel.Restaurants.Add(GetRestaurantDO(res.restaurant));
+                        restaurantsModel.MapDetails.Add(GetMapDetails(res.restaurant));
+                    }                       
                 }
 
                 if (restaurantsModel.MapDetails.Count > 0)

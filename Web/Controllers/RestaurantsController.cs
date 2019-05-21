@@ -15,9 +15,9 @@ namespace Web.Controllers
             return View();
         }
 
-        public IActionResult GetRestaurantComponent(int entityId)
+        public IActionResult GetRestaurantComponent(int entityId, bool isFilterApplied, string cuisines)
         {
-            return ViewComponent("RestaurantList", entityId);
+            return ViewComponent("RestaurantList", new { entityId = entityId, isFilterApplied = isFilterApplied, cuisines = cuisines });
         }
     }
 }

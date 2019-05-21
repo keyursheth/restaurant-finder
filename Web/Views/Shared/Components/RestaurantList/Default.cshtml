@@ -8,60 +8,105 @@
 
 @if (Model != null && Model.Restaurants != null && Model.Restaurants.Count > 0)
 {
-    foreach (var restaurant in Model.Restaurants)
-    {
-        <div class="bg-white border rounded mb-2">
-            <div class="row w-100" style="margin: 0; padding-bottom: 15px; padding-top: 15px;">
-                <div style="width: 20%; padding-left: 15px;">
-                    @*<img src="~/images/tamasha_lowerparel.jpg" height="120" width="120" style="border: 0.5px solid lightgray; border-radius: 10px;" />*@
-                    <img src="@restaurant.ImagePath" height="120" width="120"
-                         style="border: 0.5px solid lightgray; border-radius: 10px;" />
-                </div>
-                <div style="width: 65%; padding-left: 50px;">
-                    @*<div style="color: #999999;  font-weight: 400; font-size: 13px;">@restaurant.Type</div>*@
-                    <div style="color: #506CF0;  font-weight: 700; font-size: 22px;">@restaurant.Name</div>
-                    <div style="color: #000;  font-weight: 600; font-size: 15px;">@restaurant.Address.Area</div>
-                    <div class="text-truncate" style="color: #999999;  font-weight: 400; font-size: 14px;">
-                        @restaurant.Address.Street1
-                    </div>
-                </div>
-                <div style="width: 15%;">
-                    <div class="badge badge-success" style="font-size: 16px; margin-right: 10px; float: right;">@restaurant.Ratings</div>
-                    <div style="font-size: 12px; margin-right: 10px; margin-top: 5px; float: right;">@restaurant.VotesCount votes</div>
-                </div>
+    @*Filters*@
+    <div class="bg-white border rounded p-3" style="float:left; width: 20%;">
+        <span style="font-size: 20px; font-weight:600;">Filters</span>
+        <div class="pr-2 pt-3 pb-2">
+            <div class="row">
+                <div class="col-12" style="font-weight:500;">Cuisine</div>
             </div>
-            <div style="border-bottom: solid 0.7px #999999; margin: 10px;"></div>
-            <div class="row w-100" style="margin-left:0;">
-                <div class="col-4" style="color: #999999;  font-weight: 400; font-size: 14px;">
-                    <div class="row">
-                        <div class="col-12">CUISINES:</div>
-                    </div>
-                    <div class="row pb-3">
-                        <div class="col-12">COST FOR TWO:</div>
-                    </div>
-                    @*<div class="row pb-3">
-                            <div class="col-12">HOURS:</div>
-                        </div>*@
+            <div class="row pt-1" style="font-size: 14px;">
+                <div class="col-8">
+                    <input type="checkbox" class="cuisineCheckbox" value="North Indian" />
+                    North Indian
                 </div>
-                <div class="col-8" style="color: #1a1a1a;  font-weight: 500; font-size: 14px;">
-                    <div class="row text-truncate w-75">
-                        <div class="col-12">@string.Join(", ", restaurant.Cuisines)</div>
-                    </div>
-                    <div class="row pb-3">
-                        <div class="col-12">@restaurant.CostForTwo</div>
-                    </div>
-                    @*<div class="row pb-3">
-                            <div class="col-12">@restaurant.OperationHours</div>
-                        </div>*@
+                <div class="col-4 text-right">8685</div>
+            </div>            
+            <div class="row" style="font-size: 14px;">
+                <div class="col-8">
+                    <input type="checkbox" class="cuisineCheckbox" value="South Indian" />
+                    South Indian
                 </div>
-            </div>
-            <div class="row w-100" style="font-size: 16px; line-height: 60px; margin-left:0; background-color: #e8ebfd; font-weight: 500;">
-                <div class="col-4 d-flex justify-content-center" style="border: solid 0.5px #b9c2f9;">Call</div>
-                <div class="col-4 d-flex justify-content-center" style="border: solid 0.5px #b9c2f9;">View Menu</div>
-                <div class="col-4 d-flex justify-content-center" style="border: solid 0.5px #b9c2f9;">Order Now</div>
+                <div class="col-4 text-right">2082</div>
+            </div>            
+            <div class="row" style="font-size: 14px;">
+                <div class="col-8">
+                    <input type="checkbox" class="cuisineCheckbox" value="Fast Food" />
+                    Fast Food
+                </div>
+                <div class="col-4 text-right">1468</div>
             </div>
         </div>
-    }
+    </div>
+
+    @*Restaurants List*@
+    <div class="bg-transparent p-3" style="float:left; padding-top: 0 !important; width: 60%;">
+        @foreach (var restaurant in Model.Restaurants)
+        {
+            <div class="bg-white border rounded mb-2">
+                <div class="row w-100" style="margin: 0; padding-bottom: 15px; padding-top: 15px;">
+                    <div style="width: 20%; padding-left: 15px;">
+                        @*<img src="~/images/tamasha_lowerparel.jpg" height="120" width="120" style="border: 0.5px solid lightgray; border-radius: 10px;" />*@
+                        <img src="@restaurant.ImagePath" height="120" width="120"
+                             style="border: 0.5px solid lightgray; border-radius: 10px;" />
+                    </div>
+                    <div style="width: 65%; padding-left: 50px;">
+                        @*<div style="color: #999999;  font-weight: 400; font-size: 13px;">@restaurant.Type</div>*@
+                        <div style="color: #506CF0;  font-weight: 700; font-size: 22px;">@restaurant.Name</div>
+                        <div style="color: #000;  font-weight: 600; font-size: 15px;">@restaurant.Address.Area</div>
+                        <div class="text-truncate" style="color: #999999;  font-weight: 400; font-size: 14px;">
+                            @restaurant.Address.Street1
+                        </div>
+                    </div>
+                    <div style="width: 15%;">
+                        <div class="badge badge-success" style="font-size: 16px; margin-right: 10px; float: right;">@restaurant.Ratings</div>
+                        <div style="font-size: 12px; margin-right: 10px; margin-top: 5px; float: right;">@restaurant.VotesCount votes</div>
+                    </div>
+                </div>
+                <div style="border-bottom: solid 0.7px #999999; margin: 10px;"></div>
+                <div class="row w-100" style="margin-left:0;">
+                    <div style="color: #999999;  font-weight: 400; font-size: 14px; width: 25%; padding-left: 15px;">
+                        <div class="row">
+                            <div class="col-12">CUISINES:</div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="col-12">COST FOR TWO:</div>
+                        </div>
+                        @*<div class="row pb-3">
+                                <div class="col-12">HOURS:</div>
+                            </div>*@
+                    </div>
+                    <div class="col-8" style="color: #1a1a1a;  font-weight: 500; font-size: 14px;">
+                        <div class="row text-truncate w-100">
+                            <div class="col-12">@string.Join(", ", restaurant.Cuisines)</div>
+                        </div>
+                        <div class="row pb-3">
+                            <div class="col-12">@restaurant.CostForTwo</div>
+                        </div>
+                        @*<div class="row pb-3">
+                                <div class="col-12">@restaurant.OperationHours</div>
+                            </div>*@
+                    </div>
+                </div>
+                <div class="row w-100" style="font-size: 16px; line-height: 60px; margin-left:0; background-color: #e8ebfd; font-weight: 500;">
+                    <div class="col-4 d-flex justify-content-center" style="border: solid 0.5px #b9c2f9;">Call</div>
+                    <div class="col-4 d-flex justify-content-center" style="border: solid 0.5px #b9c2f9;">View Menu</div>
+                    <div class="col-4 d-flex justify-content-center" style="border: solid 0.5px #b9c2f9;">Order Now</div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @*Maps button*@
+    <div style="float: left; width: 20%;">
+        <button type="button" class="bg-white border rounded d-flex justify-content-center"
+                style="float:left; padding-top: 0 !important; line-height: 50px; width: 100%;
+                background-image: url(&quot;https://b.zmtcdn.com/images/search-map-placeholder.jpg?output-format=webp&quot;);"
+                data-toggle="modal"
+                data-target="#exampleModal">
+            View search results on map
+        </button>
+    </div>
 }
 
 <!-- Modal -->
@@ -86,15 +131,15 @@
                 center: new google.maps.LatLng(locLatLng[0], locLatLng[1])
             }
         );
-               
+
         var jsonMapData = JSON.parse($('#hdnMapDetails').val());
         var markers = [];
 
         for (var i = 0; i < jsonMapData.length; i++) {
 
-            var newLatLng = new google.maps.LatLng(jsonMapData[i].latitude,jsonMapData[i].longitude);
+            var newLatLng = new google.maps.LatLng(jsonMapData[i].latitude, jsonMapData[i].longitude);
 
-            markers.push(                
+            markers.push(
                 new google.maps.Marker({
                     position: newLatLng,
                     label: jsonMapData[i].markerLabel
@@ -112,4 +157,20 @@
     var gmapkey = $('#hdnGMapKey').val();
     var gmapSource = "https://maps.googleapis.com/maps/api/js?key=" + gmapkey + "&callback=initMap";
     $.getScript(gmapSource);
+</script>
+
+<script>
+    $('.cuisineCheckbox').on('change', function () {
+
+        var cuisines = '';
+        
+        $('.cuisineCheckbox').each(function (i) {
+            if ($(this).prop('checked')) {
+                cuisines = cuisines + $(this).prop('value');
+            }
+        });
+
+        getRestaurantDataByCityId($('#selCity').val(), true, cuisines);
+
+    });
 </script>
