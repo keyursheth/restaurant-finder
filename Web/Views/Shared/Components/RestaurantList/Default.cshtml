@@ -15,27 +15,21 @@
             <div class="row">
                 <div class="col-12" style="font-weight:500;">Cuisine</div>
             </div>
-            <div class="row pt-1" style="font-size: 14px;">
-                <div class="col-8">
-                    <input type="checkbox" class="cuisineCheckbox" value="North Indian" />
-                    North Indian
+            @foreach (var cuisine in Model.CuisineDetails)
+            {
+                string strChecked = "";
+                if (cuisine.IsChecked)
+                {
+                    strChecked = "checked";
+                }
+                <div class="row pt-1" style="font-size: 14px;">
+                    <div class="col-8">
+                        <input type="checkbox" class="cuisineCheckbox" value="@cuisine.Name" @strChecked />
+                        @cuisine.Name
+                    </div>
+                    <div class="col-4 text-right">@cuisine.Count</div>
                 </div>
-                <div class="col-4 text-right">8685</div>
-            </div>            
-            <div class="row" style="font-size: 14px;">
-                <div class="col-8">
-                    <input type="checkbox" class="cuisineCheckbox" value="South Indian" />
-                    South Indian
-                </div>
-                <div class="col-4 text-right">2082</div>
-            </div>            
-            <div class="row" style="font-size: 14px;">
-                <div class="col-8">
-                    <input type="checkbox" class="cuisineCheckbox" value="Fast Food" />
-                    Fast Food
-                </div>
-                <div class="col-4 text-right">1468</div>
-            </div>
+            }
         </div>
     </div>
 
@@ -166,9 +160,12 @@
         
         $('.cuisineCheckbox').each(function (i) {
             if ($(this).prop('checked')) {
-                cuisines = cuisines + $(this).prop('value');
+                cuisines = cuisines + ',' + $(this).prop('value');
             }
         });
+
+        if (cuisines.length > 2)
+            cuisines = cuisines.substr(1, cuisines.length);
 
         getRestaurantDataByCityId($('#selCity').val(), true, cuisines);
 

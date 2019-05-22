@@ -29,6 +29,9 @@ namespace Web.View_Components
             restaurantsModel.Restaurants = new List<RestaurantDO>();
             restaurantsModel.MapDetails = new List<MapDetailsDO>();
             List<string> lstIntersect = new List<string>();
+            List<CuisinesDO> lstAllCuisines = new List<CuisinesDO>();
+            //restaurantsModel.Cuisines = new List<string>();
+            restaurantsModel.CuisineDetails = new List<CuisinesDO>();
 
             ZomatoRestaurantDO zomatoRestaurantDO = new ZomatoRestaurantDO();
             zomatoRestaurantDO = await GetRestaurants(entityId);
@@ -37,28 +40,74 @@ namespace Web.View_Components
             if (zomatoRestaurantDO != null && zomatoRestaurantDO.results_found > 0 && zomatoRestaurantDO.results_shown > 0
                 && zomatoRestaurantDO.restaurants != null && zomatoRestaurantDO.restaurants.Length > 0)
             {
-                List<string> lstCuisines = new List<string>();
+                List<string> lstFilterCuisines = new List<string>();
 
                 if (string.IsNullOrEmpty(cuisines) == false)
-                    lstCuisines = cuisines.Split(',').ToList<string>();
+                    lstFilterCuisines = cuisines.Split(',').ToList<string>();
 
                 foreach (var res in zomatoRestaurantDO.restaurants)
-                {                   
-                    if (isFilterApplied)
+                {
+                    if (string.IsNullOrEmpty(res.restaurant.cuisines) == false)
                     {
                         List<string> lstResCuisines = res.restaurant.cuisines.Split(',').ToList<string>();
-                        lstIntersect = lstCuisines.Intersect(lstResCuisines).ToList<string>();                        
+                        lstResCuisines.ForEach(m => m.Trim());
+
+                        if (lstResCuisines != null && lstResCuisines.Count > 0)
+                        {
+                            //lstAllCuisines.AddRange(lstResCuisines);
+                            foreach (var cuisine in lstResCuisines)
+                            {
+                                if (lstAllCuisines.Where(m => m.Name.ToLower().Trim() == cuisine.ToLower().Trim()).Count() > 0)
+                                {
+                                    lstAllCuisines.Where(m => m.Name.ToLower().Trim() == cuisine.ToLower().Trim())
+                                                .First().Count += 1;
+                                }
+                                else
+                                {
+                                    lstAllCuisines.Add(new CuisinesDO() { Name = cuisine, Count = 1, IsChecked = false });
+                                }                                
+                            }
+
+                            if (isFilterApplied)
+                            {
+                                lstFilterCuisines.ForEach(m => m.ToLower().TrimStart().TrimEnd());
+                                lstResCuisines.ForEach(m => m.ToLower().TrimStart().TrimEnd());
+                                lstIntersect = lstFilterCuisines.Intersect(lstResCuisines).ToList<string>();                                
+                            }
+                        }
                     }
 
-                    if ((isFilterApplied && lstIntersect != null && lstIntersect.Count > 0) || isFilterApplied == false)
+                    if ((isFilterApplied && lstIntersect != null && lstIntersect.Count > 0)
+                        || (isFilterApplied && lstFilterCuisines.Count == 0)
+                        || isFilterApplied == false)
                     {
                         restaurantsModel.Restaurants.Add(GetRestaurantDO(res.restaurant));
                         restaurantsModel.MapDetails.Add(GetMapDetails(res.restaurant));
                     }                       
                 }
-
+                
                 if (restaurantsModel.MapDetails.Count > 0)
                     restaurantsModel.JsonMapDetails = JsonConvert.SerializeObject(restaurantsModel.MapDetails);
+
+                if (lstAllCuisines != null && lstAllCuisines.Count > 0)
+                {
+                    lstAllCuisines.ForEach(m => m.Name.Trim());
+                    restaurantsModel.CuisineDetails.AddRange(lstAllCuisines.Distinct().OrderBy(m => m.Name));
+                }
+
+                if (isFilterApplied && lstAllCuisines != null && lstAllCuisines.Count > 0)
+                {
+                    foreach (var item in restaurantsModel.CuisineDetails)
+                    {
+                        bool check = false;
+                        if (lstFilterCuisines.Where(m => m.ToLower().Trim() == item.Name.ToLower().Trim()).Count() > 0)
+                        {
+                            check = true;
+                        }
+                        
+                        item.IsChecked = check;
+                    }                    
+                }
             }
 
             return View(restaurantsModel);
