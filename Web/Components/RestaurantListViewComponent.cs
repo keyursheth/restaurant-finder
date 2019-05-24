@@ -49,8 +49,16 @@ namespace Web.View_Components
                 {
                     if (string.IsNullOrEmpty(res.restaurant.cuisines) == false)
                     {
-                        List<string> lstResCuisines = res.restaurant.cuisines.Split(',').ToList<string>();
-                        lstResCuisines.ForEach(m => m.Trim());
+                        var tempRestCuisines = res.restaurant.cuisines.Split(',');
+                        List<string> lstResCuisines = new List<string>();
+
+                        if (tempRestCuisines != null && tempRestCuisines.Count() > 0)
+                        {
+                            for (int i = 0; i < tempRestCuisines.Count(); i++)
+                            {
+                                lstResCuisines.Add(tempRestCuisines[i].Trim());
+                            }
+                        }
 
                         if (lstResCuisines != null && lstResCuisines.Count > 0)
                         {
